@@ -20,7 +20,7 @@
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
       <h1 class="b-head__path blue">CМАРТФОНЫ</h1>
     </div>
-    <div class="b-main">
+    <form class="b-main" action="/account/loginaccount" method="post">
       <div class="b-main__base">
         <div class="b-base__name">
           <h1 class="name">Производитель</h1>
@@ -30,7 +30,7 @@
         <div class="b-base__char">
           <input class="b-input" type="text" name="auth_email" required >
           <input class="b-input" type="text" name="auth_email" required >
-          <input type="file" name="auth_email" required >
+          <input class="b-input_img" type="file" name="auth_email" required >
         </div>
       </div>
       <div class="b-main__char">
@@ -57,7 +57,10 @@
           <input class="b-input" type="text" name="auth_email" required >
         </div>
       </div>
-    </div>
+      <div class="b-main__button">
+        <button class="b-button">Добавить</button>
+      </div>
+    </form>
   </div>
 </body>
 </html>

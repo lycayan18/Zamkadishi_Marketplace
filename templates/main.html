@@ -13,7 +13,7 @@
       <div class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
       </div>
-      <button onclick="myFunction()" class="left_menu_but blue">=</button>
+      <button onclick="myFunction()" class="left_menu_but blue">≡</button>
       <div class="b-head__search">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
@@ -29,18 +29,9 @@
         <p class="blue">КОРЗИНА</p>
       </a>
     </div>
-    <div class="b-main">
+    <div id='m' class="b-main">
+      <div id="s" class="b-shadow"></div>
       <div id="l" class="b-main__left">
-        <a href="usertype" class="b-global_type">
-          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
-          <p>Электроника</p>
-          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
-        </a>
-        <a href="usertype" class="b-global_type">
-          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
-          <p>Электроника</p>
-          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
-        </a>
         <a href="usertype" class="b-global_type">
           <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
           <p>Электроника</p>
@@ -184,5 +175,7 @@ function myFunction()
 {
     document.getElementById("l").classList.toggle("h-l");
     document.getElementById("r").classList.toggle("h-r");
+    document.getElementById("s").classList.toggle("h-s");
+    document.getElementById("m").classList.toggle("h-m");
 }
 </script>
