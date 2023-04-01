@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Водород</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/null.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/general.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login.css') }}">
+</head>
+<body>
+  <div class="b-page__line">
+    <form class="b-main" action="/account/loginaccount" method="post">
+      <div class="b-main__logo">
+        <h1 class="blue">VODOROD ID</h1>
+      </div>
+      <div class="b-main__input">
+        <input class="b-input" type="text" name="login" placeholder="login" required >
+        <input class="b-input" type="password" name="password" placeholder="password" required >
+      </div>
+      <div class="b-login__but">
+        <button class="b-but">Войти</button>
+      </div>
+    </form>
+    <div class="b-create">
+      <a href='registeruser'>
+        <div>
+          <p class="blue">СОЗДАТЬ АККАУНТ</p>
+        </div>
+      </a>
+      <a href='registeripp'>
+        <div>
+          <p class="blue">СТАТЬ ПРОДАВЦОМ</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Водород</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/null.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/general.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user.css') }}">
+</head>
+<body>
+  <div class="b-page__line">
+    <div class="b-head">
+      <div class="b-head__logo">
+        <h1 class="blue">VODOROD.COM</h1>
+      </div>
+      <button onclick="myFunction()" class="left_menu_but blue">=</button>
+      <div class="b-head__search">
+        <button class="b-search__button">
+          <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
+        </button>
+        <input type="text" class="b-search__input" placeholder="Я ищу...">
+      </div>
+      <a href="/account/login" class="b-head__button">
+        <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+        <p class="blue">ВОЙТИ</p>
+      </a>
+      <a href="userbasket" class="b-head__button">
+        <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+        <p class="blue">КОРЗИНА</p>
+      </a>
+    </div>
+    <div class="b-main">
+      <div id="l" class="b-main__left">
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+        <a href="usertype" class="b-global_type">
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/electronic.png') }}">
+          <p>Электроника</p>
+          <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        </a>
+      </div>
+      <div id="r" class="b-main__right">
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+        <div class="b-product">
+          <img class="b-img" src="{{ url_for('static',filename='data/airpods.png') }}">
+          <h1 class="b-cost">3000р</h1>
+          <p class="b-name">Наушники</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+function myFunction()
+{
+    document.getElementById("l").classList.toggle("h-l");
+    document.getElementById("r").classList.toggle("h-r");
+}
+</script>
