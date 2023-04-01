@@ -1,0 +1,57 @@
+.blue
+{
+    color: #005BFF;
+}
+
+div
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+a
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+h1
+{
+    font-size: 2.3vw;
+}
+
+h2
+{
+    font-size: 1.8vw;
+}
+
+p
+{
+    color: black;
+    font-size: 0.9vw;
+}
+
+.b-page__line
+{
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.b-head
+{
+    width: 100%;
+    height: 10%;
+}
+
+.b-img
+{
+    width: 100%;
+    height: auto;
+}

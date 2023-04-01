@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Водород</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/null.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/general.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/ipp.css') }}">
+</head>
+<body>
+  <div class="b-page__line">
+    <div class="b-head">
+      <a href="ipp_global_type.html" class="b-head__path blue">
+        <h1>VODOROD IP</h1>
+      </a>
+      <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
+      <a href="ipp_type.html" class="b-head__path blue">
+        <h1>ЭЛЕКТРОНИКА</h1>
+      </a>
+      <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
+      <h1 class="b-head__path blue">CМАРТФОНЫ</h1>
+    </div>
+    <form class="b-main" action="/account/loginaccount" method="post">
+      <div class="b-main__base">
+        <div class="b-base__name">
+          <h1 class="name">Производитель</h1>
+          <h1 class="name">Оригинал (да\нет)</h1>
+          <h1 class="name">Фото</h1>
+        </div>
+        <div class="b-base__char">
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input_img" type="file" name="auth_email" required >
+        </div>
+      </div>
+      <div class="b-main__char">
+        <div class="b-base__name">
+          <p class="name">Производитель</p>
+          <p class="name">Оригинал (да\нет)</p>
+          <p class="name">Фото</p>
+          <p class="name">Производитель</p>
+          <p class="name">Оригинал (да\нет)</p>
+          <p class="name">Фото</p>
+          <p class="name">Производитель</p>
+          <p class="name">Оригинал (да\нет)</p>
+          <p class="name">Фото</p>
+        </div>
+        <div class="b-base__char">
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+          <input class="b-input" type="text" name="auth_email" required >
+        </div>
+      </div>
+      <div class="b-main__button">
+        <button class="b-button">Добавить</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

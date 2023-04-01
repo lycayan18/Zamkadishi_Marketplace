@@ -1,0 +1,316 @@
+.b-head
+{
+    height: 10%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.b-main
+{
+    width: 100%;
+    height: 90%;
+    overflow: auto;
+}
+
+.b-head__logo
+{
+    width: 20%;
+}
+
+.b-head__search
+{
+    width: 50%;
+    height: 50%;
+    border:2px solid blue;
+    border-radius: 15px;
+    padding: 0px 10px;
+}
+
+.left_menu_but
+{
+    background: white;
+    width: 10%;
+    font-size: 3vw;
+}
+
+.b-search__button
+{
+    width: 4%;
+    height: 100%;
+    background: white;
+    margin: 5px;
+    padding: 0.6%;
+}
+
+.b-search__input
+{
+    width: 96%;
+    margin: 5px;
+    font-size: 0.9vw;
+}
+
+.b-head__button
+{
+    width: 10%;
+    height: 70%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.b-main__left
+{
+    display: none;
+    width: 15%;
+    height: 90%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: 10%;
+    left: 0%;
+    z-index: 1;
+    background: white;
+    overflow: hidden;
+    margin: 0px;
+}
+
+.b-basket__left
+{
+    width: 15%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    overflow: auto;
+}
+
+.h-l
+{
+    display: flex;
+    z-index: 3;
+    margin: 0px;
+}
+
+.b-global_type
+{
+     margin: 10px 0px;
+}
+
+img.b-global_type
+{
+    height: 1%;
+    width: auto;
+}
+
+.b-main__right
+{
+    flex-grow: 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 50px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0px;
+    z-index: 1;
+    overflow: auto;
+}
+
+.b-basket__right
+{
+    width: 85%;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    max-width: 85%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px;
+    overflow: auto;
+    padding: 50px;
+}
+
+.h-r
+{
+    overflow: hidden;
+}
+
+.b-shadow
+{
+    position: absolute;
+    top: 10%;
+    width: 0%;
+    height: 0%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.h-s
+{
+    width: 100%;
+    height: 90%;
+    z-index: 3;
+}
+
+.h-m
+{
+    overflow: hidden;
+}
+
+.b-product
+{
+    margin: 10px 30px;
+    width: 150px;
+    height: 250px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 15px;
+}
+
+.b-name
+{
+    color: #C0C0C0;
+    font-size: 10px;
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.b-cost
+{
+    font-size: 20px;
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.b-products
+{
+    width: 100%;
+    height: 90%;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.b-products__list
+{
+    width: 100%;
+    height: 80%;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    max-width: 90%;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.b-main__type
+{
+    flex-direction: column;
+    width: 20%;
+    height: auto;
+    margin: 30px;
+    padding: 5px;
+}
+
+.b-type__img
+{
+    width: 100%;
+    height: auto;
+    margin: 0px 0px 25px 0px;
+}
+
+.b-left__filter
+{
+    padding: 3%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 25%;
+    width: 90%;
+}
+
+.b-filter__name
+{
+    margin: 7%;
+}
+
+.b-products_list
+{
+    width: 100%;
+    margin: 0px;
+    flex-direction: column;
+}
+
+.b-product_in_list
+{
+    width: 100%;
+    height: 30%;
+    margin: 30px;
+}
+
+.b-product_in_list__img
+{
+    width: 20%;
+}
+
+.b-product_in_list__name_char
+{
+    width: 60%;
+    padding: 0px 25px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.b-product_in_list__cost_cart
+{
+    width: 20%;
+    flex-direction: column;
+}
+
+.b-cost_in_list
+{
+    width: 80%;
+    height: 15%;
+    background: green;
+    color: white;
+    border-radius: 8px;
+}
+
+.b-cart_in_list
+{
+    width: 80%;
+    height: 15%;
+    background: blue;
+    color: white;
+    border-radius: 8px;
+}
+
+.b-line {
+    width: 100%;
+	height: 2%;
+	border-top: 1px solid #333;
+}
+
+.b-product_page__name
+{
+    justify-content: flex-start;
+    height: 15%;
+    margin: 0px;
+}
+
+.b-product_page__product
+{
+    width: 100%;
+    height: 50%;
+}
+
+.b-product_page__feedback
+{
+    height: 30%;
+}
+
+.b-cart
+{
+    flex-direction: column;
+    height: 60%;
+}
