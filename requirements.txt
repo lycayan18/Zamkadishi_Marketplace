@@ -1,0 +1,6 @@
+flask
+flask_login
+environs
+pymysql
+SqlAlchemy
+Werkzeug
