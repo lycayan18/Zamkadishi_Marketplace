@@ -33,6 +33,26 @@ def main_page():
     return render_template("main.html")
 
 
+@app.route("/userbasket")
+def userbasket():
+    return render_template("user_basket.html")
+
+
+@app.route("/usertype")
+def usertype():
+    return render_template("user_type.html")
+
+
+@app.route("/userproductlist")
+def userproductlist():
+    return render_template("user_product_list.html")
+
+
+@app.route("/userproduct")
+def userproduct():
+    return render_template("user_product.html")
+
+
 @app.route("/list")
 def list_page():
     return render_template("list.html")

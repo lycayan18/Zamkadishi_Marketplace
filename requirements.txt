@@ -3,4 +3,5 @@ flask_login
 environs
 pymysql
 SqlAlchemy
+sqlalchemy_serializer
 Werkzeug
