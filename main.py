@@ -4,13 +4,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from keys.config import load_config
 from db.make_session import create_session
-from db.requests import get_user_id, add_user, get_password, get_user
+from db.requests import get_user_id, add_user, get_password, get_user, get_product_characteristics
 from db.models import Users
+
+import warnings
 
 app = Flask(__name__)
 config = load_config()
 
 app.config["SECRET_KEY"] = config.flask.secret_key
+
+warnings.filterwarnings("ignore")
 
 session = create_session(config.db.engine)
 login_manager = LoginManager(app)
@@ -30,6 +34,7 @@ def logout():
 
 @app.route("/")
 def main_page():
+    print(get_product_characteristics(session, 1))
     return render_template("main.html")
 
 

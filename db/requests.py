@@ -1,4 +1,4 @@
-from db.models import Users
+from db.models import Users, Products, Categories, Characteristics, ProductValues
 from sqlalchemy.orm import Session
 
 def add_user(session: Session, user_name, login, password, user_type="buyer", ipp=""):
@@ -24,3 +24,15 @@ def get_user(session: Session, user_id):
 
 def get_password(session: Session, login):
     return session.query(Users.password).filter(Users.login == login).all()
+
+
+def get_characteristics(session: Session, category_id):
+    return session.query(Characteristics.name).filter(Characteristics.category_id == category_id).all()
+
+
+def get_product_characteristics(session: Session, product_id):
+    return session.query(Characteristics.name, ProductValues.c.value).join(Characteristics).filter(ProductValues.c.product_id == product_id).all()
+
+
+def get_product(session: Session, product_id):
+    return session.query(Products.name).filter(Products.id == product_id).all()
