@@ -10,15 +10,15 @@
 <body>
   <div class="b-page__line">
     <div class="b-head">
-      <a href="ipp_global_type.html" class="b-head__path blue">
+      <a href="/ipp/list" class="b-head__path blue">
         <h1>VODOROD IP</h1>
       </a>
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
-      <a href="ipp_type.html" class="b-head__path blue">
-        <h1>ЭЛЕКТРОНИКА</h1>
+      <a href="/ipp/list/{{ global_type }}" class="b-head__path blue">
+        <h1>{{ global_type }}</h1>
       </a>
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
-      <h1 class="b-head__path blue">CМАРТФОНЫ</h1>
+      <h1 class="b-head__path blue">{{ type }}</h1>
     </div>
     <form class="b-main" action="/account/loginaccount" method="post">
       <div class="b-main__base">
