@@ -4,20 +4,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from keys.config import load_config
 from db.make_session import create_session
-from db.requests import get_user_id, add_user, get_password, get_user, get_product_characteristics
+from db.requests import get_user_id, add_user, get_password, get_user
 from db.models import Users
-
-import warnings
+from test import Product
 
 app = Flask(__name__)
 config = load_config()
 
 app.config["SECRET_KEY"] = config.flask.secret_key
 
-warnings.filterwarnings("ignore")
-
 session = create_session(config.db.engine)
 login_manager = LoginManager(app)
+
+
+# login block
 
 
 @login_manager.user_loader
@@ -30,43 +30,6 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect("/")
-
-
-@app.route("/")
-def main_page():
-    print(get_product_characteristics(session, 1))
-    return render_template("main.html")
-
-
-@app.route("/userbasket")
-def userbasket():
-    return render_template("user_basket.html")
-
-
-@app.route("/usertype")
-def usertype():
-    return render_template("user_type.html")
-
-
-@app.route("/userproductlist")
-def userproductlist():
-    return render_template("user_product_list.html")
-
-
-@app.route("/userproduct")
-def userproduct():
-    return render_template("user_product.html")
-
-
-@app.route("/list")
-def list_page():
-    return render_template("list.html")
-
-
-@app.route("/products")
-@login_required
-def product_page():
-    return render_template("main.html")
 
 
 @app.route("/account/login")
@@ -126,6 +89,89 @@ def registernewipp():
             add_user(session, user_name=user_name, ipp=ipp, login=login, password=password, user_type="ipp")
             return redirect("/")
     return redirect("/account/registeripp")
+
+
+# main block
+
+
+# product_types - левое меню
+# передаешь список типов товара с атрибутами: photo, global_type
+
+# products - правое меню меню
+# передаешь список продуктов с атрибутами: photo, cost, name
+
+# названия атрибутов поменяю если что
+
+@app.route("/")
+def main_page():
+    return render_template("main.html", product_types=[], products=[])
+
+
+@app.route("/products")
+@login_required
+def product_page():
+    return render_template("main.html", product_types=[], products=[])
+
+
+# ipp block
+
+@app.route("/ipp/list")
+def ipp_page():
+    return render_template("ipp_global_type.html", product_types=[])
+
+
+# global_type и type подставятся автоматом. Не трогай
+
+
+@app.route("/ipp/list/<global_type>")
+def ipp_global_type_page(global_type=''):
+    return render_template("ipp_type.html", global_type=global_type.upper(), product_types=[])
+
+
+@app.route("/ipp/list/<global_type>/<type>")
+def ipp_type_page(global_type='', type=''):
+    return render_template("ipp_create.html", global_type=global_type.upper(), type=type.upper())
+
+
+# user block
+
+
+@app.route("/user/<global_type>")
+def user_global_type_page(global_type=''):
+    return render_template("user_type.html", global_type=global_type.upper(), product_types=[])
+
+
+@app.route("/user/<global_type>/<type>")
+def user_type_page(global_type='', type=''):
+    # вместо in_cart нужно добавлять в карзину (атрибут .in_cart)
+    if request.method == 'POST':
+        print(request.form)
+        if request.form.get('В корзину') == 'В корзину':
+            in_cart = 1
+        if request.form.get('-') == '-' and in_cart != 0:
+            in_cart -= 1
+        if request.form.get('+') == '+':
+            in_cart += 1
+    return render_template("user_product_list.html", global_type=global_type.upper(), products=[], filters=Product().filter, type=type)
+
+
+@app.route("/user/<global_type>/<type>/<prod>", methods=['GET', 'POST'])
+def user_product_page(global_type, type, prod):
+    # вместо in_cart нужно добавлять в карзину (атрибут .in_cart)
+    if request.method == 'POST':
+        print(request.form)
+        if request.form.get('В корзину') == 'В корзину':
+            in_cart = 1
+        if request.form.get('-') == '-' and in_cart != 0:
+            in_cart -= 1
+        if request.form.get('+') == '+':
+            in_cart += 1
+    return render_template("user_product.html", product=None)
+
+
+@app.route("/userbasket")
+def user_basket_page():
+    return render_template("user_basket.html", products=[], summa=0)
 
 
 if __name__ == '__main__':

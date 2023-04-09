@@ -20,60 +20,80 @@
         </button>
         <input type="text" class="b-search__input" placeholder="Я ищу...">
       </div>
-      <a href="login.html" class="b-head__button">
+      <a href="/account/login" class="b-head__button">
         <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
         <p class="blue">ВОЙТИ</p>
       </a>
-      <a href="user_basket.html" class="b-head__button">
+      <a href="userbasket" class="b-head__button">
         <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
         <p class="blue">КОРЗИНА</p>
       </a>
     </div>
     <div class="b-main">
-      <div id="l" class="b-main__left">
+      <form id="l" class="b-main__left h-l2">
+          <div class="b-left__filter">
+            <div class="b-filter__name">
+                <h2>Цена</h2>
+            </div>
+              <div class="b-filter__cost">
+                <p>от</p>
+                <input class="b-search__input" type="text">
+              </div>
+            <div class="b-filter__cost">
+              <p>до</p>
+              <input class="b-search__input" type="text">
+            </div>
+          </div>
+          {% for filter in filters %}
+            <div class="b-left__filter">
+              <div class="b-filter__name">
+                <h2>{{ filter.name }}</h2>
+              </div>
+              {% for val in filter.values %}
+                <div>
+                  <input type="checkbox" name="{{ filter.name }}.{{ val }}">
+                  <p>{{ val }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
         <div class="b-left__filter">
-          <div class="b-filter__name">
-            <h2>Бренд</h2>
-          </div>
-          <div>
-            <input type="checkbox">
-            <p>Айфон</p>
-          </div>
-          <div>
-            <input type="checkbox">
-            <p>Айфон</p>
-          </div>
-          <div>
-            <input type="checkbox">
-            <p>Айфон</p>
-          </div>
-          <div>
-            <input type="checkbox">
-            <p>Айфон</p>
-          </div>
+          <button class="b-append">Применить</button>
         </div>
-      </div>
-      <div id="r" class="b-main__right">
+      </form>
+      <div id="r" class="b-main__right h-r2">
+        {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='data/tecno.png') }}">
+              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='data/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
-              <h2 style="margin: 0px;"><a href="userproduct" class="blue">Смартфон какой-то</a></h2>
-              <p style="margin: 0px;">Это там</p>
-              <p style="margin: 0px;">Тут это</p>
-              <p style="margin: 0px;">Характеристика</p>
+              <h2 style="margin: 0px;"><a href="{{ type }}/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
+              {% for char in product.characteristics %}
+                <p style="margin: 0px;">{{ char }}</p>
+              {% endfor %}
             </div>
             <div class="b-product_in_list__cost_cart">
               <button class="b-cost_in_list">
-                9999
+                {{ product.cost }}
               </button>
-              <button class="b-cart_in_list">
-                В корзину
-              </button>
+              {% if product.in_cart == 0 %}
+                <form class="b-cart_in_list" method="post">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="В корзину">
+                </form>
+              {% else %}
+                <div>
+                  <form class="b-cart_in_list" method="post">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="-">
+                    <p class="b-cart_in_list2">{{ product.in_cart }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="+">
+                  </form>
+                </div>
+              {% endif %}
             </div>
           </div>
-        <hr class="b-line">
+          <hr class="b-line">
+        {% endfor %}
       </div>
     </div>
   </div>

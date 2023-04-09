@@ -13,48 +13,14 @@
       <h1 class="b-head__path blue">VODOROD IP</h1>
     </div>
     <div class="b-main">
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
-      <a href="ipp_type.html" class="b-main__gtype">
-        <div class="b-gtype__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/electronic.png') }}">
-        </div>
-        <p>Электроника</p>
-      </a>
+      {% for types in product_types %}
+        <a href="types.global_type" class="b-main__gtype">
+          <div class="b-gtype__img">
+            <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/' + types.photo) }}">
+          </div>
+          <p>{{ types.global_type }}</p>
+        </a>
+      {% endfor %}
     </div>
   </div>
 </body>
