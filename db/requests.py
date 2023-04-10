@@ -56,3 +56,7 @@ def get_category_type(session):
 
 def get_category_by_category_type(session, category_type_id):
     return session.query(Categories).filter(Categories.category_type_id == category_type_id).all()
+
+
+def get_top_products(session):
+    return session.query(Products).all()

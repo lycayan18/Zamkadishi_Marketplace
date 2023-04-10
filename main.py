@@ -6,7 +6,6 @@ from keys.config import load_config
 from db.make_session import create_session
 from db.requests import get_user_id, add_user, get_password, get_user
 from db.models import Users
-from test import Product
 
 app = Flask(__name__)
 config = load_config()
