@@ -20,31 +20,45 @@
         </button>
         <input type="text" class="b-search__input" placeholder="Я ищу...">
       </div>
-      <a href="/account/login" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">ВОЙТИ</p>
-      </a>
-      <a href="/userbasket" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">КОРЗИНА</p>
-      </a>
+      {% if current_user.is_authenticated %}
+        <a href="/logout" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВЫЙТИ</p>
+        </a>
+      {% else %}
+        <a href="/account/login" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВОЙТИ</p>
+        </a>
+      {% endif %}
+      {% if current_user.is_authenticated %}
+        <a href="/userbasket" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </a>
+      {% else %}
+        <div class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </div>
+      {% endif %}
     </div>
     <div id='m' class="b-main">
       <div id="s" class="b-shadow"></div>
       <div id="l" class="b-main__left">
-        {% for types in product_types %}
-          <a href="user/{{ types.global_type }}" class="b-global_type">
-            <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/' + types.photo) }}">
-            <p>{{ types.global_type }}</p>
-            <img class="b-img" style="width: 7%;" src="{{ url_for('static',filename='data/arrow.png') }}">
+        {% for type in product_types %}
+          <a href="user/{{ type.id }}" class="b-global_type">
+            <img class="b-img" style="max-width: 15%;" src="{{ url_for('static',filename='img/' + type.photo) }}">
+            <p>{{ type.name }}</p>
+            <img class="b-img" style="max-width: 7%;" src="{{ url_for('static',filename='data/arrow.png') }}">
           </a>
         {% endfor %}
       </div>
       <div id="r" class="b-main__right">
         {% for product in products %}
           <div class="b-product">
-            <img class="b-img" src="{{ url_for('static',filename='data/' + product.photo) }}">
-            <h1 class="b-cost">{{ product.cost }}</h1>
+            <img class="b-img" style="max-height: 70%; width: auto;" src="{{ url_for('static', filename='img/' + product.photo) }}">
+            <h1 class="b-cost">{{ product.price }}</h1>
             <p class="b-name">{{ product.name }}</p>
           </div>
         {% endfor %}

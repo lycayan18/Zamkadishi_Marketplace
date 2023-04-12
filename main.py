@@ -1,10 +1,11 @@
+import flask
 from flask import Flask, render_template, request, redirect
 from flask_login import login_user, LoginManager, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from keys.config import load_config
 from db.make_session import create_session
-from db.requests import get_user_id, add_user, get_password, get_user
+from db.requests import *
 from db.models import Users
 
 app = Flask(__name__)
@@ -103,74 +104,94 @@ def registernewipp():
 
 @app.route("/")
 def main_page():
-    return render_template("main.html", product_types=[], products=[])
+    product_types = get_category_type(session)
+    products = get_top_products(session)
+    return render_template("main.html", product_types=product_types, products=products)
 
 
 @app.route("/products")
 @login_required
 def product_page():
-    return render_template("main.html", product_types=[], products=[])
+    product_types = get_category_type(session)
+    products = get_top_products(session)
+    return render_template("main.html", product_types=product_types, products=products)
 
 
 # ipp block
 
 @app.route("/ipp/list")
 def ipp_page():
-    return render_template("ipp_global_type.html", product_types=[])
+    product_types = get_category_type(session)
+    return render_template("ipp_global_type.html", product_types=product_types)
 
 
-# global_type и type подставятся автоматом. Не трогай
+@app.route("/ipp/list/<global_type_id>")
+def ipp_global_type_page(global_type_id):
+    global_type = get_category_type_by_id(session, global_type_id)
+    product_types = get_category_by_category_type(session, global_type_id)
+    return render_template("ipp_type.html", global_type=global_type, product_types=product_types)
 
 
-@app.route("/ipp/list/<global_type>")
-def ipp_global_type_page(global_type=''):
-    return render_template("ipp_type.html", global_type=global_type.upper(), product_types=[])
-
-
-@app.route("/ipp/list/<global_type>/<type>")
-def ipp_type_page(global_type='', type=''):
-    return render_template("ipp_create.html", global_type=global_type.upper(), type=type.upper())
+@app.route("/ipp/list/<global_type_id>/<type_id>")
+def ipp_type_page(global_type_id, type_id):
+    global_type = get_category_type_by_id(session, global_type_id)
+    type = get_category_by_id(session, type_id)
+    characteristics = get_characteristics(session, type_id)
+    return render_template("ipp_create.html", global_type=global_type, type=type, characteristics=characteristics)
 
 
 # user block
 
 
-@app.route("/user/<global_type>")
-def user_global_type_page(global_type=''):
-    return render_template("user_type.html", global_type=global_type.upper(), product_types=[])
+@app.route("/user/<global_type_id>")
+def user_global_type_page(global_type_id):
+    global_type = get_category_type_by_id(session, global_type_id)
+    product_types = get_category_by_category_type(session, global_type_id)
+    return render_template("user_type.html", global_type=global_type, product_types=product_types)
 
 
-@app.route("/user/<global_type>/<type>")
-def user_type_page(global_type='', type=''):
+@app.route("/user/<global_type_id>/<type_id>")
+def user_type_page(global_type_id, type_id):
+    global_type = get_category_type_by_id(session, global_type_id)
+    type = get_category_by_id(session, type_id)
+    products = get_products_by_category(session, type_id)
+    char = get_products_characteristics(session, type_id)
+
+    # characteristics = get_characteristics(session, type_id)
     # вместо in_cart нужно добавлять в карзину (атрибут .in_cart)
+
     if request.method == 'POST':
-        print(request.form)
         if request.form.get('В корзину') == 'В корзину':
             in_cart = 1
         if request.form.get('-') == '-' and in_cart != 0:
             in_cart -= 1
         if request.form.get('+') == '+':
             in_cart += 1
-    return render_template("user_product_list.html", global_type=global_type.upper(), products=[], filters=Product().filter, type=type)
+    return render_template("user_product_list.html", global_type=global_type, type=type,
+                           products=products, filters=[], char=char)
 
 
-@app.route("/user/<global_type>/<type>/<prod>", methods=['GET', 'POST'])
-def user_product_page(global_type, type, prod):
-    # вместо in_cart нужно добавлять в карзину (атрибут .in_cart)
+@app.route("/user/<global_type_id>/<type_id>/<prod_id>", methods=['GET', 'POST'])
+def user_product_page(global_type_id, type_id, prod_id):
+    global_type = get_category_type_by_id(session, global_type_id)
+    type = get_category_by_id(session, type_id)
+    product = get_product_by_id(session, prod_id)
+    char = get_products_characteristics(session, prod_id)
     if request.method == 'POST':
-        print(request.form)
         if request.form.get('В корзину') == 'В корзину':
             in_cart = 1
         if request.form.get('-') == '-' and in_cart != 0:
             in_cart -= 1
         if request.form.get('+') == '+':
             in_cart += 1
-    return render_template("user_product.html", product=None)
+    return render_template("user_product.html", global_type=global_type, type=type, product=product, char=char)
 
 
 @app.route("/userbasket")
 def user_basket_page():
-    return render_template("user_basket.html", products=[], summa=0)
+    basket = get_user_basket(session, get_user_id(session, login_manager))
+    print(basket)
+    return render_template("user_basket.html", products=[], summa=0, basket=basket)
 
 
 if __name__ == '__main__':

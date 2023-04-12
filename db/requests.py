@@ -1,6 +1,7 @@
 from db.models import Users, Products, CategoryType, Categories, Characteristics, ProductValues, Basket, BasketHistory
 from sqlalchemy.orm import Session
 
+
 def add_user(session: Session, user_name, login, password, user_type="buyer", ipp=""):
     query = Users(
         user_name=user_name,
@@ -60,3 +61,15 @@ def get_category_by_category_type(session, category_type_id):
 
 def get_top_products(session):
     return session.query(Products).all()
+
+
+def get_category_type_by_id(session, id):
+    return session.query(CategoryType).filter(CategoryType.id == id).first()
+
+
+def get_category_by_id(session, id):
+    return session.query(Categories).filter(Categories.id == id).first()
+
+
+def get_product_by_id(session, id):
+    return session.query(Products).filter(Products.id == id).first()

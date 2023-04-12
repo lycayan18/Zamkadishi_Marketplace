@@ -13,12 +13,12 @@
       <h1 class="b-head__path blue">VODOROD IP</h1>
     </div>
     <div class="b-main">
-      {% for types in product_types %}
-        <a href="types.global_type" class="b-main__gtype">
+      {% for type in product_types %}
+        <a href="/ipp/list/{{ type.id }}" class="b-main__gtype">
           <div class="b-gtype__img">
-            <img class="b-img" style="width: 15%;" src="{{ url_for('static',filename='data/' + types.photo) }}">
+            <img class="b-img" style="max-width: 15%;" src="{{ url_for('static', filename='data/' + type.photo) }}">
           </div>
-          <p>{{ types.global_type }}</p>
+          <p>{{ type.name.upper() }}</p>
         </a>
       {% endfor %}
     </div>

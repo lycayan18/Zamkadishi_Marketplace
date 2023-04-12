@@ -49,6 +49,7 @@ class Categories(Base):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     name = Column(TINYTEXT)
+    photo = Column(TINYTEXT)
     characteristics = relationship('Characteristics', overlaps="Categories.products")
     category_type_id = Column(INTEGER, ForeignKey("category_type.id"))
 
