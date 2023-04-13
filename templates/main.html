@@ -56,11 +56,11 @@
       </div>
       <div id="r" class="b-main__right">
         {% for product in products %}
-          <div class="b-product">
+          <a href="/user/1/1/{{ product.id }}" class="b-product">
             <img class="b-img" style="max-height: 70%; width: auto;" src="{{ url_for('static', filename='img/' + product.photo) }}">
-            <h1 class="b-cost">{{ product.price }}</h1>
-            <p class="b-name">{{ product.name }}</p>
-          </div>
+            <h1 class="b-cost blue">{{ product.price }}</h1>
+            <p class="b-name blue">{{ product.name }}</p>
+          </a>
         {% endfor %}
       </div>
     </div>

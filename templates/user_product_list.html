@@ -61,12 +61,12 @@
           {% for filter in filters %}
             <div class="b-left__filter">
               <div class="b-filter__name">
-                <h2>{{ filter.name }}</h2>
+                <h3>{{ filter[0] }}</h3>
               </div>
-              {% for val in filter.values %}
-                <div>
-                  <input type="checkbox" name="{{ filter.name }}.{{ val }}">
-                  <p>{{ val }}</p>
+              {% for val in filter[1] %}
+                <div class="b-filter__filter">
+                  <input class="b-filter__checkbox" type="checkbox" name="{{ val }}.{{ val }}">
+                  <p class="b-filter__value">{{ val }}</p>
                 </div>
               {% endfor %}
             </div>
@@ -79,11 +79,11 @@
         {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
+              <img style="width: 50%; height: auto;" class="b-img"  src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
               <h2 style="margin: 0px;"><a href="{{ type.id }}/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
-              {% for char in char %}
+              {% for char in char[loop.index0] %}
                 <div style="justify-content: space-between;">
                   <p style="margin: 0px;">{{ char[0] }}</p>
                   <p style="margin: 0px;">{{ char[1] }}</p>
@@ -94,16 +94,16 @@
               <button class="b-cost_in_list">
                 {{ product.price }}
               </button>
-              {% if product.in_cart == 0 %}
+              {% if product.id not in cart.keys() %}
                 <form class="b-cart_in_list" method="post">
-                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="В корзину">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="cart.in.{{ product.id }}">
                 </form>
               {% else %}
                 <div>
                   <form class="b-cart_in_list" method="post">
-                    <input class="b-cart_in_list2" type="submit" value="-" name="-">
-                    <p class="b-cart_in_list2">{{ product.in_cart }}</p>
-                    <input class="b-cart_in_list2" type="submit" value="+" name="+">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="cart.-.{{ product.id }}">
+                    <p class="b-cart_in_list2">{{ cart[product.id] }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="cart.+.{{ product.id }}">
                   </form>
                 </div>
               {% endif %}

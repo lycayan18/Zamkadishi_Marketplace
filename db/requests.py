@@ -38,7 +38,7 @@ def get_product(session: Session, product_id):
 
 
 def get_user_basket(session: Session, user_id):
-    return session.query(Basket.c.product_id).filter(Basket.c.user_id == user_id).all()
+    return session.query(Basket.c.product_id, Basket.c.count,).filter(Basket.c.user_id == user_id).all()
 
 
 def get_user_history_basket(session: Session, user_id):
@@ -85,8 +85,6 @@ def get_category_filters(session, category_id):
         elem.append(list(set(i[0] for i in session.query(ProductValues.c.value).filter(ProductValues.c.characteristics_id == i.id).all())))
         ans.append(elem)
     return ans
-        
-
 
 
 def check_product_in_basket(session, user_id, product_id,):
@@ -182,6 +180,7 @@ def add_product(session, name, category_id, price, user_ipp, characterisitics):
 
         session.execute(query)
         session.commit()
+
 
 # get_products_by_filters(session, (1, 2), ("6.7", "3200"))
 def get_products_by_filters(session, characteristics_id, productvalues):

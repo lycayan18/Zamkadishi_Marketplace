@@ -48,18 +48,36 @@
         {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='data/' + product.photo) }}">
+              <img style="width: 50%; height: auto;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
               <h2 style="margin: 0px;"><a href="user_product.html" class="blue">{{ product.name }}</a></h2>
-              {% for char in product.characteristics %}
-                <p style="margin: 0px;">{{ char }}</p>
+              {% for char1 in char %}
+                {% for char2 in char1 %}
+                  <div style="justify-content: space-between;">
+                    <p style="margin: 0px;">{{ char2[0] }}</p>
+                    <p style="margin: 0px;">{{ char2[1] }}</p>
+                  </div>
+                {% endfor %}
               {% endfor %}
             </div>
             <div class="b-product_in_list__cost_cart">
               <button class="b-cost_in_list">
-                {{ product.cost }}
+                {{ product.price }}
               </button>
+              {% if product.id not in cart.keys() %}
+                <form class="b-cart_in_list" method="post">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="cart.in.{{ product.id }}">
+                </form>
+              {% else %}
+                <div>
+                  <form class="b-cart_in_list" method="post">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="cart.-.{{ product.id }}">
+                    <p class="b-cart_in_list2">{{ cart[product.id] }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="cart.+.{{ product.id }}">
+                  </form>
+                </div>
+              {% endif %}
             </div>
           </div>
           <hr class="b-line">

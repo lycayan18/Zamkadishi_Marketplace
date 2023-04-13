@@ -67,16 +67,16 @@
             <button class="b-cost_in_list">
               {{ product.price }}
             </button>
-              {% if product.in_cart == 0 %}
+              {% if product.id not in cart.keys() %}
                 <form class="b-cart_in_list" method="post">
-                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="В корзину">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="cart.in.{{ product.id }}">
                 </form>
               {% else %}
                 <div>
                   <form class="b-cart_in_list" method="post">
-                    <input class="b-cart_in_list2" type="submit" value="-" name="-">
-                    <p class="b-cart_in_list2">{{ product.in_cart }}</p>
-                    <input class="b-cart_in_list2" type="submit" value="+" name="+">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="cart.-.{{ product.id }}">
+                    <p class="b-cart_in_list2">{{ cart[product.id] }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="cart.+.{{ product.id }}">
                   </form>
                 </div>
               {% endif %}
