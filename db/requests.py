@@ -1,7 +1,7 @@
 from db.models import Users, Products, CategoryType, Categories, Characteristics, ProductValues, Basket, BasketHistory
 from sqlalchemy.orm import Session
-from sqlalchemy import insert, update, delete
-
+from sqlalchemy import insert, update, delete, select
+import sqlalchemy
 import datetime
 
 def add_user(session: Session, user_name, login, password, user_type="buyer", ipp=""):
@@ -63,6 +63,18 @@ def get_category_by_category_type(session, category_type_id):
 
 def get_top_products(session):
     return session.query(Products).all()
+
+
+def get_category_type_by_id(session, id):
+    return session.query(CategoryType).filter(CategoryType.id == id).first()
+
+
+def get_category_by_id(session, id):
+    return session.query(Categories).filter(Categories.id == id).first()
+
+
+def get_product_by_id(session, id):
+    return session.query(Products).filter(Products.id == id).first()
 
 
 def get_category_filters(session, category_id):
@@ -165,13 +177,20 @@ def add_product(session, name, category_id, price, user_ipp, characterisitics):
     for i in characterisitics:
         query = (
             insert(ProductValues).
-            values(characteristics_id=i[0], product_id=product.id, value=i[1])
+            values(characteristics_id=i[0], product_id=i[1], value=i[2])
         )
 
         session.execute(query)
         session.commit()
 
+# get_products_by_filters(session, (1, 2), ("6.7", "3200"))
+def get_products_by_filters(session, characteristics_id, productvalues):
+    stmt = (
+        select(Products).
+        join(ProductValues).join(Characteristics).
+        where(ProductValues.c.characteristics_id.in_(characteristics_id), ProductValues.c.value.in_(productvalues)).
+        group_by(Products.id).
+        having(sqlalchemy.func.count(Products.id) == len(characteristics_id))
+    )
 
-# NOT WORK print(get_products_by_filters(session, 1, [2, (5000, 6000)]))
-def get_products_by_filters(session, category_id, arr):
-    session.query(Products.name).join(ProductValues).filter(Products.category_id == category_id).filter(ProductValues.c.characteristics_id == i[0] and ProductValues.c.values in i[1] for i in arr).all()
+    return session.execute(stmt).all()
