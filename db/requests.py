@@ -1,6 +1,8 @@
 from db.models import Users, Products, CategoryType, Categories, Characteristics, ProductValues, Basket, BasketHistory
 from sqlalchemy.orm import Session
+from sqlalchemy import insert, update, delete
 
+import datetime
 
 def add_user(session: Session, user_name, login, password, user_type="buyer", ipp=""):
     query = Users(
@@ -63,13 +65,113 @@ def get_top_products(session):
     return session.query(Products).all()
 
 
-def get_category_type_by_id(session, id):
-    return session.query(CategoryType).filter(CategoryType.id == id).first()
+def get_category_filters(session, category_id):
+    characteristics = get_characteristics(session, category_id)
+    ans = []
+    for i in characteristics:
+        elem = [i.name]
+        elem.append(list(set(i[0] for i in session.query(ProductValues.c.value).filter(ProductValues.c.characteristics_id == i.id).all())))
+        ans.append(elem)
+    return ans
+        
 
 
-def get_category_by_id(session, id):
-    return session.query(Categories).filter(Categories.id == id).first()
+
+def check_product_in_basket(session, user_id, product_id,):
+    if session.query(Basket).filter(Basket.c.product_id == product_id).filter(Basket.c.user_id == user_id).count() == 0:
+        query = (
+                insert(Basket).
+                values(user_id=user_id, product_id=product_id, count=1)
+            )
+    
+        session.execute(query)
+        session.commit()
+        return False
+    return True
 
 
-def get_product_by_id(session, id):
-    return session.query(Products).filter(Products.id == id).first()
+def add_plus_product_to_basket(session, user_id, product_id):
+    if check_product_in_basket(session, user_id, product_id):
+        query = (
+            update(Basket).
+            filter(Basket.c.product_id == product_id, Basket.c.user_id == user_id).
+            values(count = Basket.c.count + 1)
+        )
+
+        session.execute(query)
+        session.commit()
+
+
+def add_minus_product_to_basket(session, user_id, product_id):
+    if check_product_in_basket(session, user_id, product_id):
+        query = (
+            update(Basket).
+            filter(Basket.c.product_id == product_id, Basket.c.user_id == user_id).
+            values(count = Basket.c.count - 1)
+        )
+        session.execute(query)
+        session.commit()
+
+        stmt = (
+            delete(Basket).
+            filter(Basket.c.count == 0)
+        )
+
+        session.execute(stmt)
+        session.commit()
+
+
+def add_basket_to_history(session, user_id):
+    time = str(datetime.datetime.now())
+    for i in session.query(Basket).filter(Basket.c.user_id == user_id).all():
+        print(i)
+        stmt = (
+            insert(BasketHistory).
+            values(user_id=i[0], product_id=i[1], count=i[2], date=time)
+        )
+
+        session.execute(stmt)
+        session.commit()
+
+    query = (
+        delete(Basket).
+        where(Basket.c.user_id == user_id)
+    )
+
+    session.execute(query)
+    session.commit()
+
+
+def add_product(session, name, category_id, price, user_ipp, characterisitics):
+    product = Products(
+        name=name,
+        category_id=category_id,
+        price=price,
+        user_ipp=user_ipp
+    )
+
+    session.add(product)
+    session.commit()
+
+    query = (
+        update(Products).
+        filter(Products.id == product.id).
+        values(photo=f"product{product.id}.png")
+    )
+
+    session.execute(query)
+    session.commit()
+
+    for i in characterisitics:
+        query = (
+            insert(ProductValues).
+            values(characteristics_id=i[0], product_id=product.id, value=i[1])
+        )
+
+        session.execute(query)
+        session.commit()
+
+
+# NOT WORK print(get_products_by_filters(session, 1, [2, (5000, 6000)]))
+def get_products_by_filters(session, category_id, arr):
+    session.query(Products.name).join(ProductValues).filter(Products.category_id == category_id).filter(ProductValues.c.characteristics_id == i[0] and ProductValues.c.values in i[1] for i in arr).all()
