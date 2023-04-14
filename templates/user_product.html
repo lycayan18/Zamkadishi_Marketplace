@@ -10,9 +10,9 @@
 <body>
   <div class="b-page__line">
     <div class="b-head">
-      <div class="b-head__logo">
+      <a href="/" class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
-      </div>
+      </a>
       <button onclick="myFunction()" class="left_menu_but blue"></button>
       <div class="b-head__search">
         <button class="b-search__button">
@@ -58,8 +58,10 @@
             <h2 style="margin: 0px;" class="blue">{{ product.manufacturer }}</h2>
               {% for char in char %}
                 <div style="justify-content: space-between;">
-                  <p style="margin: 0px;">{{ char[0] }}</p>
-                  <p style="margin: 0px;">{{ char[1] }}</p>
+                  <p style="margin: 0px; color: #909090;">{{ char[0] }}:
+                    <span style="margin: 0px; color: black;">{{ char[1] }}
+                    </span>
+                  </p>
                 </div>
               {% endfor %}
           </div>

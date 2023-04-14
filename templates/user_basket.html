@@ -10,9 +10,9 @@
 <body>
   <div class="b-page__line">
     <div class="b-head">
-      <div class="b-head__logo">
+      <a href="/" class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
-      </div>
+      </a>
       <button onclick="myFunction()" class="left_menu_but blue"></button>
       <div class="b-head__search">
         <button class="b-search__button">
@@ -48,17 +48,17 @@
         {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="width: 50%; height: auto;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
+              <img style="max-width: 40%;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
-              <h2 style="margin: 0px;"><a href="user_product.html" class="blue">{{ product.name }}</a></h2>
-              {% for char1 in char %}
-                {% for char2 in char1 %}
-                  <div style="justify-content: space-between;">
-                    <p style="margin: 0px;">{{ char2[0] }}</p>
-                    <p style="margin: 0px;">{{ char2[1] }}</p>
-                  </div>
-                {% endfor %}
+              <h2 style="margin: 0px;"><a href="/user/1/1/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
+              {% for char1 in char[loop.index0] %}
+                <div style="justify-content: space-between;">
+                  <p style="margin: 0px; color: #909090;">{{ char1[0] }}:
+                    <span style="margin: 0px; color: black;">{{ char1[1] }}
+                    </span>
+                  </p>
+                </div>
               {% endfor %}
             </div>
             <div class="b-product_in_list__cost_cart">

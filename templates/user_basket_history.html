@@ -43,19 +43,42 @@
         </div>
       {% endif %}
     </div>
-    <div class="b-products">
-      <h1>{{ global_type.name.upper() }}</h1>
-      <div class="b-products__list">
-        {% for type in product_types %}
-          <a href="/user/{{ global_type.id }}/{{ type.id }}" class="b-main__type">
-            <div class="b-type__img">
-              <img class="b-img" src="{{ url_for('static',filename='data/' + type.photo) }}">
+    <div class="b-main">
+      <div id="r" class="b-basket__right">
+        {% for product in products %}
+          <div class="b-product_in_list">
+            <div class="b-product_in_list__img">
+              <img style="max-width: 40%;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
-            <p>{{ type.name.upper() }}</p>
-          </a>
+            <div class="b-product_in_list__name_char">
+              <h2 style="margin: 0px;"><a href="/user/1/1/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
+              {% for char1 in char[loop.index0] %}
+                <div style="justify-content: space-between;">
+                  <p style="margin: 0px; color: #909090;">{{ char1[0] }}:
+                    <span style="margin: 0px; color: black;">{{ char1[1] }}
+                    </span>
+                  </p>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="b-product_in_list__cost_cart">
+              <button class="b-cost_in_list">
+                {{ product.price }}
+              </button>
+            </div>
+          </div>
+          <hr class="b-line">
         {% endfor %}
       </div>
     </div>
   </div>
 </body>
 </html>
+
+<script>
+function myFunction()
+{
+    document.getElementById("l").classList.toggle("h-l");
+    document.getElementById("r").classList.toggle("h-r");
+}
+</script>
