@@ -35,6 +35,16 @@ def ipp_required(func):
     return decorated_function
 
 
+def ipp_not_required(func):
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+            if current_user.ipp:
+                return redirect("/")
+        return func(*args, **kwargs)
+
+    return decorated_function
+
+
 @app.route("/logout")
 @login_required
 def logout():
