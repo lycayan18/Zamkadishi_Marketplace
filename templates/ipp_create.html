@@ -24,24 +24,24 @@
       <div class="b-main__base">
         <div class="b-base__name">
           <h1 class="name">Производитель</h1>
-          <h1 class="name">Оригинал (да\нет)</h1>
+          <h1 class="name">Цена</h1>
           <h1 class="name">Фото</h1>
         </div>
         <div class="b-base__char">
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input_img" type="file" name="auth_email" required >
+          <input class="b-input" type="text" name="manufacturer" required >
+          <input class="b-input" type="text" name="price" required >
+          <input class="b-input_img" type="file" name="photo" required >
         </div>
       </div>
       <div class="b-main__char">
         <div class="b-base__name">
           {% for char in characteristics %}
-            <p class="name">{{ characteristics.name }}</p>
+            <p class="name">{{ char.name }}</p>
           {% endfor %}
         </div>
         <div class="b-base__char">
           {% for char in characteristics %}
-            <input class="b-input" type="text" name="{{ characteristics.name }}" required >
+            <input class="b-input" type="text" name="{{ char.id }}" required >
           {% endfor %}
         </div>
       </div>

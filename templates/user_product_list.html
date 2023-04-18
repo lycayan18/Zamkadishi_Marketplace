@@ -65,7 +65,7 @@
               </div>
               {% for val in filter[1] %}
                 <div class="b-filter__filter">
-                  <input class="b-filter__checkbox" type="checkbox" name="{{ filter[0] }}.{{ val }}">
+                  <input class="b-filter__checkbox" type="checkbox" name="{{ filter[2] }}_{{ val }}">
                   <p class="b-filter__value">{{ val }}</p>
                 </div>
               {% endfor %}

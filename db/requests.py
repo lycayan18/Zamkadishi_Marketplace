@@ -83,6 +83,7 @@ def get_category_filters(session, category_id):
     for i in characteristics:
         elem = [i.name]
         elem.append(list(set(i[0] for i in session.query(ProductValues.c.value).filter(ProductValues.c.characteristics_id == i.id).all())))
+        elem.append(i.id)
         ans.append(elem)
     return ans
 
