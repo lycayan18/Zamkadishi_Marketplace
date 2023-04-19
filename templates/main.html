@@ -14,12 +14,12 @@
         <h1 class="blue">VODOROD.COM</h1>
       </a>
       <button onclick="myFunction()" class="left_menu_but blue">≡</button>
-      <div class="b-head__search">
+      <form class="b-head__search" method="post">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
         </button>
         <input type="text" class="b-search__input" placeholder="Я ищу...">
-      </div>
+      </form>
       {% if current_user.is_authenticated %}
         <a href="/logout" class="b-head__button">
           <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">

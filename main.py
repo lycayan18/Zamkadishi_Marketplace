@@ -246,6 +246,7 @@ def user_basket_page():
         if '+' in req:
             add_plus_product_to_basket(session, current_user.id, req[2])
     basket = get_user_basket(session, current_user.id)
+    products_history = get_user_history_basket(session, current_user.id)
     cart = {}
     for i in basket:
         cart[i[0]] = i[1]
@@ -254,7 +255,7 @@ def user_basket_page():
     summa = 0
     for i in cart.keys():
         summa += get_product_by_id(session, i).price * cart[i]
-    return render_template("user_basket.html", products=products, basket=basket, char=char, cart=cart, summa=summa)
+    return render_template("user_basket.html", products=products, basket=basket, char=char, cart=cart, summa=summa, products_history=products_history)
 
 
 @app.route("/listoforders")

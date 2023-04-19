@@ -16,7 +16,7 @@
       {% for type in product_types %}
         <a href="/ipp/list/{{ type.id }}" class="b-main__gtype">
           <div class="b-gtype__img">
-            <img class="b-img" style="max-width: 15%;" src="{{ url_for('static', filename='data/' + type.photo) }}">
+            <img class="b-img" style="max-width: 100%;" src="{{ url_for('static', filename='img/' + type.photo) }}">
           </div>
           <p>{{ type.name.upper() }}</p>
         </a>

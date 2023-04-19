@@ -20,7 +20,7 @@
 {
     width: 50%;
     height: 50%;
-    border:3px solid blue;
+    border:3px solid #005BFF;
     border-radius: 15px;
     padding: 0px 10px;
 }
@@ -250,7 +250,7 @@ img.b-global_type
 
 .b-left__filter
 {
-    padding: 15% 4%;
+    padding: 10% 5%;
     flex-direction: column;
     justify-content: center;
     height: 25%;
@@ -268,12 +268,13 @@ img.b-global_type
 
 .b-filter__name
 {
-    margin: 7%;
+    margin: 15px 5px;
+    justify-content : flex-start;
 }
 
 .b-filter__checkbox
 {
-    width: 30%;
+    width: 10%;
 }
 
 .b-filter__value
@@ -387,4 +388,9 @@ img.b-global_type
     color: white;
     border-radius: 7px;
     padding: 7px;
+}
+
+.b-filter__filter
+{
+    margin: 3px;
 }

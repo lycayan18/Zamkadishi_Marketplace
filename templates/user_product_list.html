@@ -47,7 +47,7 @@
       <form id="l" class="b-main__left h-l2">
           <div class="b-left__filter">
             <div class="b-filter__name">
-                <h2>Цена</h2>
+                <p style="font-weight: bold;">Цена</p>
             </div>
               <div class="b-filter__cost">
                 <p>от</p>
@@ -61,12 +61,12 @@
           {% for filter in filters %}
             <div class="b-left__filter">
               <div class="b-filter__name">
-                <h3>{{ filter[0] }}</h3>
+                <p style="margin: 0px;">{{ filter[0] }}</p>
               </div>
               {% for val in filter[1] %}
                 <div class="b-filter__filter">
                   <input class="b-filter__checkbox" type="checkbox" name="{{ filter[2] }}_{{ val }}">
-                  <p class="b-filter__value">{{ val }}</p>
+                  <p style="color: #888888;" class="b-filter__value">{{ val }}</p>
                 </div>
               {% endfor %}
             </div>

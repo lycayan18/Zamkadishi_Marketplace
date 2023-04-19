@@ -20,7 +20,7 @@
       {% for type in product_types %}
       <a href="/ipp/list/{{ global_type.id }}/{{ type.id }}" class="b-main__type">
         <div class="b-type__img">
-          <img class="b-img" src="{{ url_for('static',filename='data/' + type.photo) }}">
+          <img class="b-img" src="{{ url_for('static',filename='img/' + type.photo) }}">
         </div>
         <p>{{ type.name.upper() }}</p>
       </a>
