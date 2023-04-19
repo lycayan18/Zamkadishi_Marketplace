@@ -35,6 +35,14 @@ def ipp_required(func):
     return decorated_function
 
 
+def product_query(session, type_id, ids, values, price_from, price_to):
+    if price_to and price_from:
+        if price_from.isdigit() and price_to.isdigit():
+            print(1)
+            return get_products_by_filters(session, type_id, list(ids), values, price_from=int(price_from), price_to=int(price_to))
+    return get_products_by_filters(session, type_id, list(ids), values)
+
+
 def ipp_not_required(func):
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
@@ -182,11 +190,21 @@ def user_type_page(global_type_id, type_id):
             add_minus_product_to_basket(session, current_user.id, req[2])
         if '+' in req:
             add_plus_product_to_basket(session, current_user.id, req[2])
+    price_from = request.args.get("from")
+    price_to = request.args.get("to")
+    ids, values = set(), []
+    for i in list(request.args)[2:]:
+        phr = i.split("_")
+
+        ids.add(int(phr[0]))
+        values.append(phr[1])
+
     global_type = get_category_type_by_id(session, global_type_id)
     type = get_category_by_id(session, type_id)
-    products = get_products_by_category(session, type_id)
+    
+    products = product_query(session, type_id, ids, values, price_from, price_to)
     char = [get_products_characteristics(session, i.id) for i in products]
-    filters = get_category_filters(session, type_id)
+    filters = get_category_filters(session, type_id) 
     basket = get_user_basket(session, current_user.id)
     cart = {}
     for i in basket:

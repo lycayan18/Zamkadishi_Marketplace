@@ -1,6 +1,6 @@
 from db.models import Users, Products, CategoryType, Categories, Characteristics, ProductValues, Basket, BasketHistory
 from sqlalchemy.orm import Session
-from sqlalchemy import insert, update, delete, select
+from sqlalchemy import insert, update, delete, select, and_
 import sqlalchemy
 import datetime
 
@@ -184,13 +184,21 @@ def add_product(session, name, category_id, price, user_ipp, characterisitics):
 
 
 # get_products_by_filters(session, (1, 2), ("6.7", "3200"))
-def get_products_by_filters(session, characteristics_id, productvalues):
-    stmt = (
-        select(Products).
-        join(ProductValues).join(Characteristics).
-        where(ProductValues.c.characteristics_id.in_(characteristics_id), ProductValues.c.value.in_(productvalues)).
-        group_by(Products.id).
-        having(sqlalchemy.func.count(Products.id) == len(characteristics_id))
-    )
+def get_products_by_filters(session, category_id, characteristics_id, productvalues, price_from=0, price_to=10**10):
+    if len(characteristics_id) == 0:
+        stmt = (
+            select(Products).
+            where(Products.category_id == category_id, and_(Products.price >= price_from, Products.price <= price_to))
+        )
+    else:
+        stmt = (
+            select(Products).
+            join(ProductValues).join(Characteristics).
+            where(Products.category_id == category_id, ProductValues.c.characteristics_id.in_(characteristics_id),
+                  ProductValues.c.value.in_(productvalues),
+                  and_(Products.price >= price_from, Products.price <= price_to)).
+            group_by(Products.id).
+            having(sqlalchemy.func.count(Products.id) == len(characteristics_id))
+        )
 
-    return session.execute(stmt).all()
+    return [i[0] for i in session.execute(stmt).all()]
