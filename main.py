@@ -39,7 +39,8 @@ def product_query(session, type_id, ids, values, price_from, price_to):
     if price_to and price_from:
         if price_from.isdigit() and price_to.isdigit():
             print(1)
-            return get_products_by_filters(session, type_id, list(ids), values, price_from=int(price_from), price_to=int(price_to))
+            return get_products_by_filters(session, type_id, list(ids), values,
+                                           price_from=int(price_from), price_to=int(price_to))
     return get_products_by_filters(session, type_id, list(ids), values)
 
 
@@ -122,15 +123,6 @@ def registernewipp():
 # main block
 
 
-# product_types - левое меню
-# передаешь список типов товара с атрибутами: photo, global_type
-
-# products - правое меню меню
-# передаешь список продуктов с атрибутами: photo, cost, name
-
-# названия атрибутов поменяю если что
-# current_user.*атрибут таблицы бд юзера (смотри models.py)*
-
 @app.route("/")
 def main_page():
     product_types = get_category_type(session)
@@ -149,7 +141,6 @@ def product_page():
 # ipp block
 
 @app.route("/ipp/list")
-@ipp_required
 def ipp_page():
     product_types = get_category_type(session)
     return render_template("ipp_global_type.html", product_types=product_types)
@@ -255,14 +246,8 @@ def user_basket_page():
     summa = 0
     for i in cart.keys():
         summa += get_product_by_id(session, i).price * cart[i]
-    return render_template("user_basket.html", products=products, basket=basket, char=char, cart=cart, summa=summa, products_history=products_history)
-
-
-@app.route("/listoforders")
-def list_of_orders():
-    products = get_user_history_basket(session, current_user.id)
-    char = [get_products_characteristics(session, i.id) for i in products]
-    return render_template("user_basket_history.html", products=products, char=char)
+    return render_template("user_basket.html", products=products, basket=basket,
+                           char=char, cart=cart, summa=summa, products_history=products_history)
 
 
 if __name__ == '__main__':

@@ -18,6 +18,9 @@
 
 .b-head__search
 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 50%;
     height: 50%;
     border:3px solid #005BFF;
@@ -63,8 +66,6 @@
     width: 15%;
     height: 90%;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: absolute;
     top: 10%;
@@ -87,14 +88,18 @@
 
 .h-l
 {
-    display: flex;
     z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     margin: 0px;
 }
 
 .b-global_type
 {
-     margin: 10px 0px;
+     margin: 30px 0px;
+     height: auto;
 }
 
 img.b-global_type
@@ -377,6 +382,9 @@ img.b-global_type
 
 .b-cart
 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     flex-direction: column;
     height: 60%;
 }
