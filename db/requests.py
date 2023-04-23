@@ -88,6 +88,10 @@ def get_category_filters(session, category_id):
     return ans
 
 
+def get_product_by_name(session, name):
+    return session.query(Products).filter(Products.name.like(f"%{name}%")).first()
+
+
 def check_product_in_basket(session, user_id, product_id,):
     if session.query(Basket).filter(Basket.c.product_id == product_id).filter(Basket.c.user_id == user_id).count() == 0:
         query = (
@@ -153,7 +157,7 @@ def add_basket_to_history(session, user_id):
     session.commit()
 
 
-def add_product(session, name, category_id, price, user_ipp, characterisitics):
+def add_product(session, name, category_id, price, filename, user_ipp, form):
     product = Products(
         name=name,
         category_id=category_id,
@@ -167,16 +171,16 @@ def add_product(session, name, category_id, price, user_ipp, characterisitics):
     query = (
         update(Products).
         filter(Products.id == product.id).
-        values(photo=f"product{product.id}.png")
+        values(photo=filename, user_ipp=user_ipp)
     )
 
     session.execute(query)
     session.commit()
 
-    for i in characterisitics:
+    for i in session.query(Characteristics.id).filter(Characteristics.category_id == category_id).all():
         query = (
             insert(ProductValues).
-            values(characteristics_id=i[0], product_id=i[1], value=i[2])
+            values(characteristics_id=i[0], product_id=product.id, value=form.get(str(i[0])))
         )
 
         session.execute(query)

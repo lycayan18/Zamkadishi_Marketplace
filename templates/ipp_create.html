@@ -20,7 +20,7 @@
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
       <h1 class="b-head__path blue">{{ type.name.upper() }}</h1>
     </div>
-    <form class="b-main" action="/account/loginaccount" method="post">
+    <form class="b-main" enctype="multipart/form-data" method="post">
       <div class="b-main__base">
         <div class="b-base__name">
           <h1 class="name">Производитель</h1>

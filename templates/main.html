@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/null.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/general.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user.css') }}">
-</head>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=CqgQ_oL3Ui36ka8Jb7-4nYme0NnGm9ljaxYx03MkuBMDbeuA5VB9WFjoxuCoc6A-91iC2q-fEORVWKBuXZYQBTjiVeqcSSAdaQBRT--NfaIGXIXCHykewSypDwFkYnk7ZTeTgkr070dg1iL2dMrRYQ" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTA1MTM5MzA0NzUyODc1MTIwNC8xMDk5Njk2NzI5NzY0NDEzNTUwL21haW4uaHRtbA"/></head>
 <body>
   <div class="b-page__line">
     <div class="b-head">
@@ -14,11 +14,11 @@
         <h1 class="blue">VODOROD.COM</h1>
       </a>
       <button onclick="myFunction()" class="left_menu_but blue">≡</button>
-      <form class="b-head__search" method="post">
+      <form class="b-head__search" action="/user/search" method="post">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
         </button>
-        <input type="text" class="b-search__input" placeholder="Я ищу...">
+        <input type="text" class="b-search__input" name="search_input" placeholder="Я ищу...">
       </form>
       {% if current_user.is_authenticated %}
         <a href="/logout" class="b-head__button">

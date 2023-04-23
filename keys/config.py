@@ -5,6 +5,7 @@ from environs import Env
 @dataclass
 class FlaskConfig:
     secret_key: str
+    folder_to_save: str
 
 @dataclass
 class DbConfig:
@@ -37,6 +38,7 @@ def load_config():
                    f"{env.str('DB_HOST')}/{env.str('DB_NAME')}?charset=utf8mb4"
         ),
         flask=FlaskConfig(
-            secret_key=env.str('FLASK_SECRET_KEY')
+            secret_key=env.str('FLASK_SECRET_KEY'),
+            folder_to_save=env.str("FOLDER_TO_SAVE")
         )
     )

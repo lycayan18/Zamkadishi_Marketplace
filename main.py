@@ -2,16 +2,19 @@ import flask
 from flask import Flask, render_template, request, redirect
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 from keys.config import load_config
 from db.make_session import create_session
 from db.requests import *
 from db.models import Users
+from os.path import join, dirname, realpath
 
 app = Flask(__name__)
 config = load_config()
 
 app.config["SECRET_KEY"] = config.flask.secret_key
+app.config['UPLOAD_FOLDER'] = config.flask.folder_to_save
 
 session = create_session(config.db.engine)
 login_manager = LoginManager(app)
@@ -30,8 +33,17 @@ def ipp_required(func):
         if current_user.is_authenticated:
             if current_user.ipp:
                 return func(*args, **kwargs)
-        return redirect("/")
+        return redirect("/account/login")
+    decorated_function.__name__ = func.__name__
+    return decorated_function
 
+
+def user_required(func):
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+             return func(*args, **kwargs)
+        return redirect("/account/login")
+    decorated_function.__name__ = func.__name__
     return decorated_function
 
 
@@ -121,18 +133,8 @@ def registernewipp():
 
 
 # main block
-
-
 @app.route("/")
 def main_page():
-    product_types = get_category_type(session)
-    products = get_top_products(session)
-    return render_template("main.html", product_types=product_types, products=products)
-
-
-@app.route("/products")
-@login_required
-def product_page():
     product_types = get_category_type(session)
     products = get_top_products(session)
     return render_template("main.html", product_types=product_types, products=products)
@@ -141,6 +143,7 @@ def product_page():
 # ipp block
 
 @app.route("/ipp/list")
+@ipp_required
 def ipp_page():
     product_types = get_category_type(session)
     return render_template("ipp_global_type.html", product_types=product_types)
@@ -153,25 +156,59 @@ def ipp_global_type_page(global_type_id):
     return render_template("ipp_type.html", global_type=global_type, product_types=product_types)
 
 
-@app.route("/ipp/list/<global_type_id>/<type_id>")
+@app.route("/ipp/list/<global_type_id>/<type_id>", methods=['GET', 'POST'])
+@ipp_required
 def ipp_type_page(global_type_id, type_id):
+    if request.method == "POST":
+        manufactur = request.form.get('manufacturer')
+        price = request.form.get('price')
+        file = request.files["photo"]
+        filename = secure_filename(file.filename)
+        file.save(join(app.config['UPLOAD_FOLDER'], filename))
+
+        add_product(session, manufactur, type_id, int(price), filename, current_user.ipp, request.form)
+
     global_type = get_category_type_by_id(session, global_type_id)
     type = get_category_by_id(session, type_id)
     characteristics = get_characteristics(session, type_id)
     return render_template("ipp_create.html", global_type=global_type, type=type, characteristics=characteristics)
 
 
+@app.route("/createproduct", methods=['POST'])
+def ipp_createproduct():
+    manufactur = request.form.get('manufacturer')
+    price = request.form.get('price')
+    photo = request.form.get('photo')
+
+    add_product(session, manufactur, )
+    print(request.form)
+
+
 # user block
 
 
 @app.route("/user/<global_type_id>")
+@user_required
 def user_global_type_page(global_type_id):
     global_type = get_category_type_by_id(session, global_type_id)
     product_types = get_category_by_category_type(session, global_type_id)
     return render_template("user_type.html", global_type=global_type, product_types=product_types)
 
 
+@app.route("/user/search", methods=['GET', 'POST'])
+@user_required
+def user_search():
+    if request.method == 'POST':
+        req = request.form['search_input']
+        product = get_product_by_name(session, req)
+        if product:
+            return redirect(f'/user/1/1/{product.id}')
+        else:
+            return redirect('/')
+
+
 @app.route("/user/<global_type_id>/<type_id>", methods=['GET', 'POST'])
+@user_required
 def user_type_page(global_type_id, type_id):
     if request.method == 'POST':
         req = list(request.form.keys())[0].split('.')
@@ -205,6 +242,7 @@ def user_type_page(global_type_id, type_id):
 
 
 @app.route("/user/<global_type_id>/<type_id>/<prod_id>", methods=['GET', 'POST'])
+@user_required
 def user_product_page(global_type_id, type_id, prod_id):
     if request.method == 'POST':
         req = list(request.form.keys())[0].split('.')
@@ -227,6 +265,7 @@ def user_product_page(global_type_id, type_id, prod_id):
 
 
 @app.route("/userbasket", methods=['GET', 'POST'])
+@user_required
 def user_basket_page():
     if request.method == 'POST':
         req = list(request.form.keys())[0].split('.')
@@ -236,6 +275,9 @@ def user_basket_page():
             add_minus_product_to_basket(session, current_user.id, req[2])
         if '+' in req:
             add_plus_product_to_basket(session, current_user.id, req[2])
+        if 'order' in req:
+            add_basket_to_history(session, current_user.id)
+            return render_template('order.html')
     basket = get_user_basket(session, current_user.id)
     products_history = get_user_history_basket(session, current_user.id)
     cart = {}
