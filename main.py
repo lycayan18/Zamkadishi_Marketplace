@@ -1,20 +1,23 @@
 import flask
 from flask import Flask, render_template, request, redirect
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
+
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from keys.config import load_config
-from db.make_session import create_session
+
 from db.requests import *
 from db.models import Users
+from db.make_session import create_session
 from os.path import join, dirname, realpath
+
 
 app = Flask(__name__)
 config = load_config()
-
 app.config["SECRET_KEY"] = config.flask.secret_key
 app.config['UPLOAD_FOLDER'] = config.flask.folder_to_save
+
 
 session = create_session(config.db.engine)
 login_manager = LoginManager(app)
@@ -50,7 +53,6 @@ def user_required(func):
 def product_query(session, type_id, ids, values, price_from, price_to):
     if price_to and price_from:
         if price_from.isdigit() and price_to.isdigit():
-            print(1)
             return get_products_by_filters(session, type_id, list(ids), values,
                                            price_from=int(price_from), price_to=int(price_to))
     return get_products_by_filters(session, type_id, list(ids), values)
@@ -181,7 +183,6 @@ def ipp_createproduct():
     photo = request.form.get('photo')
 
     add_product(session, manufactur, )
-    print(request.form)
 
 
 # user block

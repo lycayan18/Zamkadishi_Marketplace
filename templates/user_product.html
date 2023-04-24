@@ -13,7 +13,7 @@
       <a href="/" class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
       </a>
-      <button onclick="myFunction()" class="left_menu_but blue">≡</button>
+      <button onclick="myFunction()" class="left_menu_but blue"></button>
       <form class="b-head__search" action="/user/search" method="post">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
@@ -47,7 +47,6 @@
       <div id="r" class="b-main__right">
         <div class="b-product_page__name">
           <h1 style="margin: 0px;">{{ product.name }}</h1>
-          <p>Код товара: {{ product.code }}</p>
         </div>
         <hr class="b-line">
         <div class="b-product_page__product">

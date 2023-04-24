@@ -139,7 +139,6 @@ def add_minus_product_to_basket(session, user_id, product_id):
 def add_basket_to_history(session, user_id):
     time = str(datetime.datetime.now())
     for i in session.query(Basket).filter(Basket.c.user_id == user_id).all():
-        print(i)
         stmt = (
             insert(BasketHistory).
             values(user_id=i[0], product_id=i[1], count=i[2], date=time)
