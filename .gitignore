@@ -2,4 +2,5 @@
 venv/
 keys/*.env
 db/__pycache__/*
+keys/__pycache__/*
 test.py

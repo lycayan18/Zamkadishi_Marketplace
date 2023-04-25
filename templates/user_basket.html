@@ -6,45 +6,91 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/null.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/general.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user.css') }}">
-</head>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=F4Q1WeCMNPgfXlbVVPW9d4kXTjqOXLnds0f5wNZMgKGYdrkWXMCe60cU96qRsq4BiJVLm0WL4DfO1ugojotbpfTdFCgJQnjnRy7PAw9tmwK-LJcBwsLsrKA6GI66frqbVWRVeV7HXGBMejuDl5PkZsz4c30iXDJueMNP7PRNVMs" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTA1MTM5MzA0NzUyODc1MTIwNC8xMDk5Njk2NzI5Mjk0NjM1MDY4L3VzZXJfYmFza2V0Lmh0bWw"/></head>
 <body>
   <div class="b-page__line">
     <div class="b-head">
-      <div class="b-head__logo">
+      <a href="/" class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
-      </div>
+      </a>
       <button onclick="myFunction()" class="left_menu_but blue"></button>
-      <div class="b-head__search">
+      <form class="b-head__search" action="/user/search" method="post">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
         </button>
-        <input type="text" class="b-search__input" placeholder="Я ищу...">
-      </div>
-      <a href="/account/login" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">ВОЙТИ</p>
-      </a>
-      <a href="/userbasket" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">КОРЗИНА</p>
-      </a>
+        <input type="text" class="b-search__input" name="search_input" placeholder="Я ищу...">
+      </form>
+      {% if current_user.is_authenticated %}
+        <a href="/logout" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВЫЙТИ</p>
+        </a>
+      {% else %}
+        <a href="/account/login" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВОЙТИ</p>
+        </a>
+      {% endif %}
+      {% if current_user.is_authenticated %}
+        <a href="/userbasket" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </a>
+      {% else %}
+        <div class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </div>
+      {% endif %}
     </div>
     <div class="b-main">
       <div id="r" class="b-basket__right">
         {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='data/' + product.photo) }}">
+              <img style="max-width: 40%;" class="b-img" src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
-              <h2 style="margin: 0px;"><a href="user_product.html" class="blue">{{ product.name }}</a></h2>
-              {% for char in product.characteristics %}
-                <p style="margin: 0px;">{{ char }}</p>
+              <h2 style="margin: 0px;"><a href="/user/1/1/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
+              {% for char1 in char[loop.index0] %}
+                <div style="justify-content: space-between;">
+                  <p style="margin: 0px; color: #909090;">{{ char1[0] }}:
+                    <span style="margin: 0px; color: black;">{{ char1[1] }}
+                    </span>
+                  </p>
+                </div>
               {% endfor %}
             </div>
             <div class="b-product_in_list__cost_cart">
               <button class="b-cost_in_list">
-                {{ product.cost }}
+                {{ product.price }}
+              </button>
+              {% if product.id not in cart.keys() %}
+                <form class="b-cart_in_list" method="post">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="cart.in.{{ product.id }}">
+                </form>
+              {% else %}
+                <div>
+                  <form class="b-cart_in_list" method="post">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="cart.-.{{ product.id }}">
+                    <p class="b-cart_in_list2">{{ cart[product.id] }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="cart.+.{{ product.id }}">
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <hr class="b-line">
+        {% endfor %}
+        <h1>СПИСОК ЗАКАЗОВ</h1>
+        {% for product in products_history %}
+          <div class="b-product_in_list">
+            <div class="b-product_in_list__name_char">
+              <h3 style="margin: 0px;">{{ product[0] }}</h3>
+            </div>
+            <div class="b-product_in_list__cost_cart">
+              <button class="b-cost_in_list">
+                {{ product[1] }}
               </button>
             </div>
           </div>
@@ -52,11 +98,11 @@
         {% endfor %}
       </div>
       <div id="l" class="b-basket__left">
-        <div class="b-cart">
+        <form class="b-cart" method="post">
           <h1>Корзина</h1>
           <h2>Сумма: {{ summa }}</h2>
-          <button class="b-cost_in_list">Перейти к оформлению</button>
-        </div>
+          <button class="b-cost_in_list" name="order">Перейти к оформлению</button>
+        </form>
       </div>
     </div>
   </div>

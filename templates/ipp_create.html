@@ -14,53 +14,47 @@
         <h1>VODOROD IP</h1>
       </a>
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
-      <a href="/ipp/list/{{ global_type }}" class="b-head__path blue">
-        <h1>{{ global_type }}</h1>
+      <a href="/ipp/list/{{ global_type.id }}" class="b-head__path blue">
+        <h1>{{ global_type.name.upper() }}</h1>
       </a>
       <img class="b-head__arrow" src="{{ url_for('static',filename='data/arrow.png') }}">
-      <h1 class="b-head__path blue">{{ type }}</h1>
+      <h1 class="b-head__path blue">{{ type.name.upper() }}</h1>
     </div>
-    <form class="b-main" action="/account/loginaccount" method="post">
+    <form class="b-main" enctype="multipart/form-data" method="post">
       <div class="b-main__base">
         <div class="b-base__name">
-          <h1 class="name">Производитель</h1>
-          <h1 class="name">Оригинал (да\нет)</h1>
+          <h1 class="name">Название</h1>
+          <h1 class="name">Цена</h1>
           <h1 class="name">Фото</h1>
         </div>
         <div class="b-base__char">
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input_img" type="file" name="auth_email" required >
+          <input class="b-input" type="text" name="manufacturer" required >
+          <input class="b-input" type="text" name="price" required >
+          <input class="b-input_img" type="file" name="photo" required >
         </div>
       </div>
       <div class="b-main__char">
         <div class="b-base__name">
-          <p class="name">Производитель</p>
-          <p class="name">Оригинал (да\нет)</p>
-          <p class="name">Фото</p>
-          <p class="name">Производитель</p>
-          <p class="name">Оригинал (да\нет)</p>
-          <p class="name">Фото</p>
-          <p class="name">Производитель</p>
-          <p class="name">Оригинал (да\нет)</p>
-          <p class="name">Фото</p>
+          {% for char in characteristics %}
+            <p class="name">{{ char.name }}</p>
+          {% endfor %}
         </div>
         <div class="b-base__char">
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
-          <input class="b-input" type="text" name="auth_email" required >
+          {% for char in characteristics %}
+            <input class="b-input" type="text" name="{{ char.id }}" required >
+          {% endfor %}
         </div>
       </div>
       <div class="b-main__button">
         <button class="b-button">Добавить</button>
       </div>
     </form>
+    <div class="b-bottom">
+        <a href="/logout" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВЫЙТИ</p>
+        </a>
+    </div>
   </div>
 </body>
 </html>

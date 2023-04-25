@@ -8,51 +8,65 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/user.css') }}">
 </head>
 <body>
-  <div class="b-page__line">
+  <div class="b-page__line" style="overflow: hidden;">
     <div class="b-head">
-      <div class="b-head__logo">
+      <a href="/" class="b-head__logo">
         <h1 class="blue">VODOROD.COM</h1>
-      </div>
+      </a>
       <button onclick="myFunction()" class="left_menu_but blue"></button>
-      <div class="b-head__search">
+      <form class="b-head__search" action="/user/search" method="post">
         <button class="b-search__button">
           <img src="{{ url_for('static',filename='data/loupe.png') }}" class="b-img">
         </button>
-        <input type="text" class="b-search__input" placeholder="Я ищу...">
-      </div>
-      <a href="/account/login" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">ВОЙТИ</p>
-      </a>
-      <a href="userbasket" class="b-head__button">
-        <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
-        <p class="blue">КОРЗИНА</p>
-      </a>
+        <input type="text" class="b-search__input" name="search_input" placeholder="Я ищу...">
+      </form>
+      {% if current_user.is_authenticated %}
+        <a href="/logout" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВЫЙТИ</p>
+        </a>
+      {% else %}
+        <a href="/account/login" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/join.png') }}" class="b-img" style="width: 20%;">
+            <p class="blue">ВОЙТИ</p>
+        </a>
+      {% endif %}
+      {% if current_user.is_authenticated %}
+        <a href="/userbasket" class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </a>
+      {% else %}
+        <div class="b-head__button">
+          <img src="{{ url_for('static',filename='data/cart.png') }}" class="b-img" style="width: 20%;">
+          <p class="blue">КОРЗИНА</p>
+        </div>
+      {% endif %}
     </div>
-    <div class="b-main">
+    <div class="b-main h-m">
       <form id="l" class="b-main__left h-l2">
           <div class="b-left__filter">
             <div class="b-filter__name">
-                <h2>Цена</h2>
+                <p style="font-weight: bold;">Цена</p>
             </div>
               <div class="b-filter__cost">
                 <p>от</p>
-                <input class="b-search__input" type="text">
+                <input class="b-search__input" type="text" name="from">
               </div>
             <div class="b-filter__cost">
               <p>до</p>
-              <input class="b-search__input" type="text">
+              <input class="b-search__input" type="text" name="to">
             </div>
           </div>
           {% for filter in filters %}
             <div class="b-left__filter">
               <div class="b-filter__name">
-                <h2>{{ filter.name }}</h2>
+                <p style="margin: 0px;">{{ filter[0] }}</p>
               </div>
-              {% for val in filter.values %}
-                <div>
-                  <input type="checkbox" name="{{ filter.name }}.{{ val }}">
-                  <p>{{ val }}</p>
+              {% for val in filter[1] %}
+                <div class="b-filter__filter">
+                  <input class="b-filter__checkbox" type="checkbox" name="{{ filter[2] }}_{{ val }}">
+                  <p style="color: #888888;" class="b-filter__value">{{ val }}</p>
                 </div>
               {% endfor %}
             </div>
@@ -65,28 +79,33 @@
         {% for product in products %}
           <div class="b-product_in_list">
             <div class="b-product_in_list__img">
-              <img style="height: 100%; width: auto;" class="b-img" src="{{ url_for('static',filename='data/' + product.photo) }}">
+              <img style="width: 50%; height: auto;" class="b-img"  src="{{ url_for('static',filename='img/' + product.photo) }}">
             </div>
             <div class="b-product_in_list__name_char">
-              <h2 style="margin: 0px;"><a href="{{ type }}/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
-              {% for char in product.characteristics %}
-                <p style="margin: 0px;">{{ char }}</p>
+              <h2 style="margin: 0px;"><a href="{{ type.id }}/{{ product.id }}" class="blue">{{ product.name }}</a></h2>
+              {% for char in char[loop.index0] %}
+                <div style="justify-content: space-between;">
+                  <p style="margin: 0px; color: #909090;">{{ char[0] }}:
+                    <span style="margin: 0px; color: black;">{{ char[1] }}
+                    </span>
+                  </p>
+                </div>
               {% endfor %}
             </div>
             <div class="b-product_in_list__cost_cart">
               <button class="b-cost_in_list">
-                {{ product.cost }}
+                {{ product.price }}
               </button>
-              {% if product.in_cart == 0 %}
+              {% if product.id not in cart.keys() %}
                 <form class="b-cart_in_list" method="post">
-                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="В корзину">
+                  <input class="b-cart_in_list2" type="submit" value="В корзину" name="cart.in.{{ product.id }}">
                 </form>
               {% else %}
                 <div>
                   <form class="b-cart_in_list" method="post">
-                    <input class="b-cart_in_list2" type="submit" value="-" name="-">
-                    <p class="b-cart_in_list2">{{ product.in_cart }}</p>
-                    <input class="b-cart_in_list2" type="submit" value="+" name="+">
+                    <input class="b-cart_in_list2" type="submit" value="-" name="cart.-.{{ product.id }}">
+                    <p class="b-cart_in_list2">{{ cart[product.id] }}</p>
+                    <input class="b-cart_in_list2" type="submit" value="+" name="cart.+.{{ product.id }}">
                   </form>
                 </div>
               {% endif %}
@@ -105,5 +124,7 @@ function myFunction()
 {
     document.getElementById("l").classList.toggle("h-l");
     document.getElementById("r").classList.toggle("h-r");
+    document.getElementById("s").classList.toggle("h-s");
+    document.getElementById("m").classList.toggle("h-m");
 }
 </script>

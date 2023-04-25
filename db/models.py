@@ -49,6 +49,7 @@ class Categories(Base):
 
     id = Column(INTEGER, primary_key=True, autoincrement=True)
     name = Column(TINYTEXT)
+    photo = Column(TINYTEXT)
     characteristics = relationship('Characteristics', overlaps="Categories.products")
     category_type_id = Column(INTEGER, ForeignKey("category_type.id"))
 
@@ -69,6 +70,5 @@ class Products(Base):
     category_id = Column(INTEGER, ForeignKey("categories.id"))
     price = Column(INTEGER)
     photo = Column(TINYTEXT)
-    count_sold = Column(TINYTEXT, default=0)
-    count_on = Column(TINYTEXT, default=0)
+    user_ipp = Column(INTEGER)
     characteristics = relationship('Characteristics', secondary=ProductValues, overlaps="Categories.products")
