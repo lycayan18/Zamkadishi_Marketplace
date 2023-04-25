@@ -36,7 +36,7 @@ def ipp_required(func):
         if current_user.is_authenticated:
             if current_user.ipp:
                 return func(*args, **kwargs)
-        return redirect("/account/login")
+        return redirect("/")
     decorated_function.__name__ = func.__name__
     return decorated_function
 
@@ -44,8 +44,9 @@ def ipp_required(func):
 def user_required(func):
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
-             return func(*args, **kwargs)
-        return redirect("/account/login")
+            if not current_user.ipp:
+                return func(*args, **kwargs)
+        return redirect("/ipp/list")
     decorated_function.__name__ = func.__name__
     return decorated_function
 
@@ -101,6 +102,8 @@ def loginuser():
             if check_password_hash(hash_pass, password):
                 user_id = get_user_id(session, user_login)
                 login_user(user_id, remember=True)
+                if current_user.ipp:
+                    return redirect("/ipp/list")
                 return redirect("/")
     return redirect("/account/login")
 
@@ -152,6 +155,7 @@ def ipp_page():
 
 
 @app.route("/ipp/list/<global_type_id>")
+@ipp_required
 def ipp_global_type_page(global_type_id):
     global_type = get_category_type_by_id(session, global_type_id)
     product_types = get_category_by_category_type(session, global_type_id)
@@ -174,15 +178,6 @@ def ipp_type_page(global_type_id, type_id):
     type = get_category_by_id(session, type_id)
     characteristics = get_characteristics(session, type_id)
     return render_template("ipp_create.html", global_type=global_type, type=type, characteristics=characteristics)
-
-
-@app.route("/createproduct", methods=['POST'])
-def ipp_createproduct():
-    manufactur = request.form.get('manufacturer')
-    price = request.form.get('price')
-    photo = request.form.get('photo')
-
-    add_product(session, manufactur, )
 
 
 # user block
