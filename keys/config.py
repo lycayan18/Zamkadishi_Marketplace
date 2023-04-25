@@ -7,6 +7,7 @@ class FlaskConfig:
     secret_key: str
     folder_to_save: str
 
+
 @dataclass
 class DbConfig:
     host: str

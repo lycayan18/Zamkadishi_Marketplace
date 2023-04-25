@@ -4,6 +4,7 @@ from sqlalchemy import insert, update, delete, select, and_
 import sqlalchemy
 import datetime
 
+
 def add_user(session: Session, user_name, login, password, user_type="buyer", ipp=""):
     query = Users(
         user_name=user_name,
@@ -42,7 +43,8 @@ def get_user_basket(session: Session, user_id):
 
 
 def get_user_history_basket(session: Session, user_id):
-    return session.query(Products.name, BasketHistory.c.count).join(Products).filter(BasketHistory.c.user_id == user_id).all()
+    return session.query(Products.name, BasketHistory.c.count).join(Products)\
+        .filter(BasketHistory.c.user_id == user_id).all()
 
 
 def get_products_by_category(session, category_id):
@@ -50,7 +52,8 @@ def get_products_by_category(session, category_id):
 
 
 def get_products_characteristics(session, product_id):
-    return session.query(Characteristics.name, ProductValues.c.value).join(Characteristics).filter(ProductValues.c.product_id == product_id).all()
+    return session.query(Characteristics.name, ProductValues.c.value).join(Characteristics)\
+        .filter(ProductValues.c.product_id == product_id).all()
 
 
 def get_category_type(session):
@@ -82,7 +85,8 @@ def get_category_filters(session, category_id):
     ans = []
     for i in characteristics:
         elem = [i.name]
-        elem.append(list(set(i[0] for i in session.query(ProductValues.c.value).filter(ProductValues.c.characteristics_id == i.id).all())))
+        elem.append(list(set(i[0] for i in session.query(ProductValues.c.value)
+                             .filter(ProductValues.c.characteristics_id == i.id).all())))
         elem.append(i.id)
         ans.append(elem)
     return ans
@@ -110,7 +114,7 @@ def add_plus_product_to_basket(session, user_id, product_id):
         query = (
             update(Basket).
             filter(Basket.c.product_id == product_id, Basket.c.user_id == user_id).
-            values(count = Basket.c.count + 1)
+            values(count=Basket.c.count + 1)
         )
 
         session.execute(query)
@@ -122,7 +126,7 @@ def add_minus_product_to_basket(session, user_id, product_id):
         query = (
             update(Basket).
             filter(Basket.c.product_id == product_id, Basket.c.user_id == user_id).
-            values(count = Basket.c.count - 1)
+            values(count=Basket.c.count - 1)
         )
         session.execute(query)
         session.commit()
